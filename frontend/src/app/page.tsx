@@ -5,7 +5,11 @@ export default function Home() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/hello")
+    const backendUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://monoback.onrender.com/api/hello"
+        : "http://localhost:5000/api/hello";
+    fetch(backendUrl)
       .then((res) => res.json())
       .then((data) => setMessage(data.message))
       .catch(() => setMessage("Error fetching backend"));

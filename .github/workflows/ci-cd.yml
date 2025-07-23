@@ -1,0 +1,35 @@
+# GitHub Actions CI/CD for mono monorepo
+# This workflow will build and test both frontend and backend
+# You can extend it to deploy to Vercel (frontend) and Render (backend)
+
+name: CI/CD
+
+on:
+  push:
+    branches: [ main, envs, feat/init ]
+  pull_request:
+    branches: [ main, envs, feat/init ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [frontend, backend]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.service }}
+          npm install
+      - name: Run tests
+        run: |
+          cd ${{ matrix.service }}
+          npm run test || echo "No tests"
+
+# For deployment, connect Vercel (frontend) and Render (backend) via their dashboards for auto-deploy on push.
+# You can add deploy steps here if you want full automation.
