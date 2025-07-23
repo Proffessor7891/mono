@@ -17,6 +17,7 @@ import { BookService } from './book.service';
       database: process.env.POSTGRES_DB || 'books',
       entities: [Book],
       synchronize: true,
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     TypeOrmModule.forFeature([Book]),
   ],
