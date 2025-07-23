@@ -5,12 +5,12 @@ export class Book {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   author: string;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, nullable: true })
   price: number;
 }
